@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jason Chan · Pharmacist. Trader. Builder.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #080808;
+  --surface:      #111111;
+  --surface-2:    #181818;
+  --border:       #2C2C2C;
+  --border-soft:  #1A1A1A;
+  --gold:         #C9A84C;
+  --gold-dim:     rgba(201,168,76,0.10);
+  --gold-dim2:    rgba(201,168,76,0.05);
+  --gold-bright:  #E2C06A;
+  --text:         #F0EDE6;
+  --text-secondary: #8A8780;
+  --text-tertiary:  #444444;
+  --display: 'Playfair Display', serif;
+  --sans:    'Inter', sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── SCROLL FADE ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(55px);
+  filter: blur(4px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.75s ease;
+}
+/* Entering from below (scrolling down) */
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+/* Exiting upward (scrolling down past element) */
+.reveal.exit-up {
+  opacity: 0;
+  transform: translateY(-40px);
+  filter: blur(3px);
+  transition: opacity 0.45s ease,
+              transform 0.45s ease,
+              filter 0.45s ease;
+}
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 3rem;
+  background: rgba(8,8,8,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-soft);
+  transition: border-color 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--border); }
+
+.nav-logo {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 9rem 3rem 5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* subtle grid overlay */
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.8rem;
+}
+.eyebrow span { color: var(--gold); }
+
+.hero-name {
+  font-family: var(--display);
+  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 1.6rem;
+}
+.hero-name span { color: var(--gold); }
+
+.hero-typewriter {
+  font-family: var(--mono);
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  min-height: 1.8em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.typed-word {
+  color: var(--gold-bright);
+  font-weight: 400;
+}
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--gold);
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero-bio {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  line-height: 1.85;
+  margin-bottom: 3rem;
+}
+.hero-bio strong { color: var(--text); font-weight: 500; }
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  padding: 0.8rem 1.75rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.22s;
+  display: inline-block;
+  font-weight: 500;
+}
+.btn-primary {
+  background: var(--gold);
+  color: #080808;
+  border: 1px solid var(--gold);
+  font-weight: 500;
+}
+.btn-primary:hover {
+  background: transparent;
+  color: var(--gold);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ── TICKER STRIP ── */
+.ticker-wrap {
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  overflow: hidden;
+  padding: 0.7rem 0;
+  background: var(--surface);
+}
+.ticker-inner {
+  display: flex;
+  gap: 3rem;
+  animation: ticker 28s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+.ticker-item span { color: var(--gold); margin-left: 0.4em; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── SECTIONS ── */
+.section-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 6rem 3rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 3rem;
+  line-height: 1.2;
+}
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 5rem;
+  align-items: start;
+}
+.about-stack {
+  padding-top: 2rem;
+}
+.about-text p {
+  color: var(--text-secondary);
+  margin-bottom: 1.3rem;
+  font-size: 0.96rem;
+  line-height: 1.85;
+}
+.about-text p strong { color: var(--text); font-weight: 500; }
+
+.about-stack { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.stack-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-left: 2px solid transparent;
+  border-radius: 2px;
+  transition: border-left-color 0.2s, background 0.2s;
+}
+.stack-row:hover {
+  border-left-color: var(--gold);
+  background: var(--surface-2);
+}
+.stack-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.stack-dot.dim { background: var(--text-tertiary); }
+.stack-label {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+.stack-tag {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.02em;
+}
+
+/* ── DOMAINS ── */
+.domains-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.domain-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+  padding: 2rem 1.75rem;
+  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.domain-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.domain-card:hover { border-color: var(--border); background: var(--surface-2); }
+.domain-card:hover::after { opacity: 1; }
+
+.domain-number {
+  font-family: var(--sans);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  transition: color 0.25s;
+}
+.domain-card:hover .domain-number { color: var(--gold-dim2); color: rgba(201,168,76,0.15); }
+
+.domain-title {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.7rem;
+}
+.domain-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+.domain-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.4rem;
+}
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-tertiary);
+  background: var(--gold-dim2);
+  border: 1px solid var(--border-soft);
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* ── PROJECTS ── */
+.projects-list { display: flex; flex-direction: column; }
+
+.project-row {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  align-items: start;
+  gap: 2rem;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--border-soft);
+  transition: all 0.2s;
+}
+.project-row:first-child { border-top: 1px solid var(--border-soft); }
+.project-row:hover .project-name { color: var(--gold); }
+.project-row:hover { background: transparent; }
+
+.project-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: inline-block;
+}
+.project-status.live {
+  color: var(--gold);
+  border-color: rgba(201,168,76,0.35);
+  background: var(--gold-dim);
+}
+.project-status.ongoing {
+  color: #5B8DB8;
+  border-color: rgba(91,141,184,0.35);
+  background: rgba(91,141,184,0.08);
+}
+
+.project-name {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  transition: color 0.2s;
+}
+.project-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.project-arrow {
+  color: var(--text-tertiary);
+  font-size: 18px;
+  transition: color 0.2s, transform 0.2s;
+  padding-top: 4px;
+}
+.project-row:hover .project-arrow {
+  color: var(--gold);
+  transform: translate(3px, -3px);
+}
+
+/* ── CHESS STRIP ── */
+.chess-strip {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3.5rem 3rem;
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+.chess-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.chess-cell { background: var(--surface); }
+.chess-cell.light { background: #1E1A10; }
+
+.chess-quote {
+  font-family: var(--display);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.75;
+}
+.chess-quote cite {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-tertiary);
+  font-style: normal;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-top: 0.6rem;
+}
+
+/* ── CONNECT ── */
+.connect-intro {
+  font-size: 0.96rem;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin-bottom: 2.5rem;
+  line-height: 1.8;
+}
+.connect-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+}
+.connect-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+  transition: border-color 0.22s, background 0.22s;
+}
+.connect-card:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+.connect-icon {
+  color: var(--text-tertiary);
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.connect-card:hover .connect-icon { color: var(--gold); }
+.connect-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+}
+.connect-sub {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 2rem 3rem;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+}
+.footer-text span { color: var(--gold); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.2rem; }
+  #hero, .section-wrap, .chess-strip, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .domains-grid { grid-template-columns: 1fr; }
+  .project-row { grid-template-columns: 1fr; gap: 0.5rem; }
+  .project-arrow { display: none; }
+  .hero-name { font-size: 2.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.exit-up { opacity: 1; transform: none; filter: none; transition: none; }
+  .ticker-inner { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Jason Chan</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#domains">Domains</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="eyebrow reveal">based in the <span>uk</span> · from hong kong</p>
+  <h1 class="hero-name reveal reveal-delay-1">Jason <span>Chan</span></h1>
+  <div class="hero-typewriter reveal reveal-delay-2">
+    <span>Currently:</span>
+    <span class="typed-word" id="typed"></span>
+    <span class="cursor"></span>
+  </div>
+  <p class="hero-bio reveal reveal-delay-3">
+    Clinical pharmacist by profession. <strong>Swing trader</strong> by conviction.
+    <strong>Builder</strong> by passion.
+    The domains look unrelated. The thinking doesn't.
+  </p>
+  <div class="hero-cta reveal reveal-delay-4">
+    <a href="#projects" class="btn btn-primary">See what I've built</a>
+    <a href="#connect" class="btn btn-ghost">Get in touch</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Based In The UK <span>·</span></span>
+    <span class="ticker-item">From Hong Kong <span>·</span></span>
+    <span class="ticker-item">Clinical Pharmacist <span>·</span></span>
+    <span class="ticker-item">Swing Trader <span>·</span></span>
+    <span class="ticker-item">Strategic Investor <span>·</span></span>
+    <span class="ticker-item">Agentic AI Builder <span>·</span></span>
+    <span class="ticker-item">Chess Enthusiast <span>·</span></span>
+    <span class="ticker-item">Self-Learner <span>·</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Based In The UK <span>·</span></span>
+    <span class="ticker-item">From Hong Kong <span>·</span></span>
+    <span class="ticker-item">Clinical Pharmacist <span>·</span></span>
+    <span class="ticker-item">Swing Trader <span>·</span></span>
+    <span class="ticker-item">Strategic Investor <span>·</span></span>
+    <span class="ticker-item">Agentic AI Builder <span>·</span></span>
+    <span class="ticker-item">Chess Enthusiast <span>·</span></span>
+    <span class="ticker-item">Self-Learner <span>·</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section-wrap" id="about">
+  <p class="section-label reveal">About</p>
+  <h2 class="section-title reveal reveal-delay-1">The logic behind the person</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="reveal reveal-delay-1">
+        I grew up in <strong>Hong Kong</strong> and came to the UK to study pharmacy.
+        Across every domain I've worked in, the same logic applies:
+        understand the <span style="color:var(--gold)">system</span>, find the <span style="color:var(--gold)">edge</span>, act with <span style="color:var(--gold)">precision</span>.
+      </p>
+      <p class="reveal reveal-delay-2">
+        The NHS sharpened that instinct. When the margin for error is zero, you learn to think
+        clearly under pressure — to cut through noise, size up risk quickly, and commit to a decision.
+        I carried that discipline into markets. My trading framework is systematic and risk-first —
+        I think in probabilities, not predictions. Every trade starts with the downside.
+      </p>
+      <p class="reveal reveal-delay-3">
+        Building — born from curiosity, forged by tenacity — a drive to explore new domains and create things
+        that actually add value. No computer science background, no formal training.
+        Just a problem worth solving, AI as the force multiplier, and the satisfaction of shipping
+        something that works.
+      </p>
+    </div>
+    <div class="about-stack reveal reveal-delay-2">
+      <div class="stack-row">
+        <div class="stack-dot"></div>
+        <span class="stack-label">NHS Clinical Pharmacist</span>
+        <span class="stack-tag">Full-time</span>
+      </div>
+      <div class="stack-row">
+        <div class="stack-dot"></div>
+        <span class="stack-label">Swing Trader</span>
+        <span class="stack-tag">Active</span>
+      </div>
+      <div class="stack-row">
+        <div class="stack-dot"></div>
+        <span class="stack-label">Agentic AI Builder</span>
+        <span class="stack-tag">Shipping</span>
+      </div>
+      <div class="stack-row">
+        <div class="stack-dot"></div>
+        <span class="stack-label">Chess Enthusiast</span>
+        <span class="stack-tag">Battling</span>
+      </div>
+      <div class="stack-row">
+        <div class="stack-dot"></div>
+        <span class="stack-label">First Principles Thinker</span>
+        <span class="stack-tag">Architecting</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOMAINS -->
+<div class="section-wrap" id="domains">
+  <p class="section-label reveal">Domains</p>
+  <h2 class="section-title reveal reveal-delay-1">What I work on</h2>
+  <div class="domains-grid">
+    <div class="domain-card reveal reveal-delay-1">
+      <div class="domain-number">𝟶𝟷</div>
+      <div class="domain-title">Clinical Pharmacy</div>
+      <div class="domain-desc">
+        Patient safety, evidence-based decisions, and precision under pressure — every day for 5+ years.
+        Acting decisively when the margin for error is zero.
+        You learn to think in systems — and trust that discipline when it matters most.
+      </div>
+      <div class="domain-tags">
+        <span class="tag">NHS</span>
+        <span class="tag">Clinical</span>
+        <span class="tag">Pharmacovigilance</span>
+      </div>
+    </div>
+    <div class="domain-card reveal reveal-delay-2">
+      <div class="domain-number">𝟶𝟸</div>
+      <div class="domain-title">Swing Trading</div>
+      <div class="domain-desc">
+        Broad market analysis, alpha picks, momentum trading, technical confluence, position sizing, risk management.
+        Every trade is a hypothesis — structured entry, defined exit. Cut the losers fast, let the winners run.
+      </div>
+      <div class="domain-tags">
+        <span class="tag">Equities</span>
+        <span class="tag">Commodities</span>
+        <span class="tag">TradingView</span>
+        <span class="tag">+2 years experience</span>
+      </div>
+    </div>
+    <div class="domain-card reveal reveal-delay-3">
+      <div class="domain-number">𝟶𝟹</div>
+      <div class="domain-title">Agentic AI Building</div>
+      <div class="domain-desc">
+        Tools built for real use — portfolio automation, market analysis, web apps.
+        Claude Code as the primary environment. The workflow: decompose the problem, build in iterations, ship when it works.
+        Curiosity over credentials.
+      </div>
+      <div class="domain-tags">
+        <span class="tag">Claude Code</span>
+        <span class="tag">Apps Script</span>
+        <span class="tag">Automation</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section-wrap" id="projects">
+  <p class="section-label reveal">Projects</p>
+  <h2 class="section-title reveal reveal-delay-1">Things I've shipped</h2>
+  <div class="projects-list">
+
+    <div class="project-row reveal reveal-delay-1">
+      <div><span class="project-status live">live</span></div>
+      <div>
+        <div class="project-name">Morning Meditate</div>
+        <div class="project-desc">
+          A free, voice-guided meditation web app — my first ever shipped project, built solo with agentic AI.
+          Born from a personal need: dopamine detox, morning reset, and a way to enter focused work-mode.
+          Features four seasonal soundscapes and a box breathing guide.
+          What started as a tool for myself became something I shared with family, friends, and colleagues.
+          Because mental health matters.
+        </div>
+      </div>
+      <a href="https://www.morningmeditate.app/" target="_blank" rel="noopener" class="project-arrow" title="Visit Morning Meditate">↗</a>
+    </div>
+
+    <div class="project-row reveal reveal-delay-2">
+      <div><span class="project-status ongoing">ongoing</span></div>
+      <div>
+        <div class="project-name">Gold Market Analysis Tool</div>
+        <div class="project-desc">
+          Gold market intelligence is fragmented across too many sources. This tool pulls it all together —
+          Central Bank purchases, ETF net flows, real yields, DXY, and technical structure — into a single automated dashboard.
+          Data is fetched and analysed automatically, with manual refresh on demand.
+          Built for personal use to replace an hour of research with a complete fundamental view of the gold market in under a minute.
+        </div>
+      </div>
+      <button onclick="document.getElementById('gold-modal').style.display='flex'" class="project-arrow" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;" title="Watch demo">↗</button>
+    </div>
+
+    <!-- Gold Tool Video Modal -->
+    <div id="gold-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; align-items:center; justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+      <div style="position:relative; width:90%; max-width:860px; background:#000; border-radius:8px; overflow:hidden; border:1px solid var(--border);">
+        <button onclick="document.getElementById('gold-modal').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer; z-index:10; line-height:1;">✕</button>
+        <iframe src="https://drive.google.com/file/d/1HTc7uXXH-RIp8L7icaMWs2HBr7kz8yMi/preview?loop=1" style="width:100%; aspect-ratio:16/9; border:none; display:block;" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="project-row reveal reveal-delay-3">
+      <div><span class="project-status ongoing">ongoing</span></div>
+      <div>
+        <div class="project-name">Portfolio Tracker</div>
+        <div class="project-desc">
+          Three years of iteration — a fully automated portfolio operating system inside Google Sheets.
+          One transaction log — everything else is automated. Live positions, P&amp;L, equity curve, profit factor, win rate.
+          Broad market dashboard spanning US indices, FTSE, emerging markets, Bitcoin, DXY, and VIX.
+          Sector and industry performance and rankings across multiple timeframes.
+          Daily market narrative generated via Perplexity API.
+          Built with Apps Script and AI — what used to be fragmented across a dozen sources now lands as a complete market picture in under five minutes.
+        </div>
+      </div>
+      <button onclick="openTrackerGallery(0)" class="project-arrow" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;" title="View screenshots">↗</button>
+    </div>
+
+    <!-- Portfolio Tracker Gallery Modal -->
+    <div id="tracker-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+      <div style="position:relative; width:92%; max-width:1100px; background:#0e0e0e; border-radius:8px; overflow:hidden; border:1px solid var(--border);">
+
+        <!-- Close -->
+        <button onclick="document.getElementById('tracker-modal').style.display='none'" style="position:absolute; top:12px; right:16px; background:none; border:none; color:var(--text-secondary); font-size:1.4rem; cursor:pointer; z-index:10; line-height:1; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-secondary)'">✕</button>
+
+        <!-- Slide label -->
+        <div style="padding:1.2rem 1.5rem 0.6rem; display:flex; align-items:center; justify-content:space-between;">
+          <span id="tracker-slide-label" style="font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:0.12em; text-transform:uppercase;"></span>
+          <span id="tracker-slide-counter" style="font-family:var(--mono); font-size:11px; color:var(--text-tertiary); letter-spacing:0.08em;"></span>
+        </div>
+
+        <!-- Image -->
+        <div style="padding:0 1.5rem;">
+          <img id="tracker-slide-img" src="" alt="" style="width:100%; display:block; border-radius:4px; border:1px solid var(--border-soft);" />
+        </div>
+
+        <!-- Nav -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:2rem; padding:1.2rem 1.5rem 1.5rem;">
+          <button onclick="trackerNav(-1)" id="tracker-prev" style="background:transparent; border:1px solid var(--border); color:var(--text-secondary); font-family:var(--sans); font-size:12px; letter-spacing:0.06em; padding:0.5rem 1.2rem; border-radius:2px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">← PREV</button>
+          <div id="tracker-dots" style="display:flex; gap:0.5rem;"></div>
+          <button onclick="trackerNav(1)" id="tracker-next" style="background:transparent; border:1px solid var(--border); color:var(--text-secondary); font-family:var(--sans); font-size:12px; letter-spacing:0.06em; padding:0.5rem 1.2rem; border-radius:2px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">NEXT →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="project-row reveal reveal-delay-4">
+      <div><span class="project-status">building</span></div>
+      <div>
+        <div class="project-name">Next: TBD</div>
+        <div class="project-desc">
+          Something at the intersection of markets, AI, and systematic thinking.
+          Always in progress. Check back.
+        </div>
+      </div>
+      <div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CHESS STRIP -->
+<div class="chess-strip reveal">
+  <div class="chess-board" aria-hidden="true" id="chess-board"></div>
+  <p class="chess-quote">
+    "When you see a good move — wait — look for a better one."
+    <cite>— a principle that applies equally to markets and therapeutics</cite>
+  </p>
+</div>
+
+<!-- CONNECT -->
+<div class="section-wrap" id="connect">
+  <p class="section-label reveal">Connect</p>
+  <h2 class="section-title reveal reveal-delay-1">Get in touch</h2>
+  <p class="connect-intro reveal reveal-delay-2">
+    Open to conversations about trading ideas, building with AI,
+    or anything at the intersection of systems thinking and real-world execution.
+  </p>
+  <div class="connect-grid">
+    <a href="mailto:hello@jasonchan.global" class="connect-card reveal reveal-delay-1">
+      <svg class="connect-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+      <div>
+        <div class="connect-label">Email</div>
+        <div class="connect-sub">hello@jasonchan.global</div>
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/in/jason-chan-8066ba215?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener" class="connect-card reveal reveal-delay-2">
+      <svg class="connect-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+      <div>
+        <div class="connect-label">LinkedIn</div>
+        <div class="connect-sub">jason-chan</div>
+      </div>
+    </a>
+    <a href="https://x.com/jjjason_chan?s=11&t=OpdwCJw9bfTFRlIxZ7rcOA" target="_blank" rel="noopener" class="connect-card reveal reveal-delay-3">
+      <svg class="connect-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4l16 16M4 20 20 4"/></svg>
+      <div>
+        <div class="connect-label">X / Twitter</div>
+        <div class="connect-sub">@jjjason_chan</div>
+      </div>
+    </a>
+    <a href="https://www.instagram.com/jjjason_chan?igsh=MWVmNjB0ZnI2eHFsMQ%3D%3D&utm_source=qr" target="_blank" rel="noopener" class="connect-card reveal reveal-delay-4">
+      <svg class="connect-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+      <div>
+        <div class="connect-label">Instagram</div>
+        <div class="connect-sub">@jjjason_chan</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">JASON CHAN · <span>UK</span> · <span id="footer-year"></span></p>
+  <p class="footer-text" id="footer-time"></p>
+</footer>
+
+<script>
+// Chess board
+const board = document.getElementById('chess-board');
+for (let i = 0; i < 64; i++) {
+  const c = document.createElement('div');
+  c.className = 'chess-cell' + (((Math.floor(i/8) + i) % 2 === 0) ? ' light' : '');
+  board.appendChild(c);
+}
+
+// Typewriter
+const words = ['pharmacist_', 'swing_trader_', 'strategic_investor_', 'builder_', 'chess_player_', 'in_progress_'];
+let wi = 0, ci = 0, deleting = false;
+const el = document.getElementById('typed');
+function type() {
+  const word = words[wi];
+  if (!deleting) {
+    el.textContent = word.slice(0, ++ci);
+    if (ci === word.length) { deleting = true; setTimeout(type, 2000); return; }
+  } else {
+    el.textContent = word.slice(0, --ci);
+    if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+  }
+  setTimeout(type, deleting ? 50 : 85);
+}
+type();
+
+// Bidirectional scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+let lastScrollY = window.scrollY;
+
+const observer = new IntersectionObserver((entries) => {
+  const currentScrollY = window.scrollY;
+  const scrollingDown = currentScrollY >= lastScrollY;
+
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      // Element entering viewport — always fade in
+      e.target.classList.remove('exit-up');
+      // Small rAF delay so removal of exit-up doesn't cancel the transition
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          e.target.classList.add('visible');
+        });
+      });
+    } else {
+      // Element leaving viewport
+      const rect = e.boundingClientRect;
+      if (rect.top < 0) {
+        // Left through the top — exiting upward (scrolling down)
+        e.target.classList.remove('visible');
+        e.target.classList.add('exit-up');
+      } else {
+        // Left through the bottom — reset to come-from-below state
+        e.target.classList.remove('visible');
+        e.target.classList.remove('exit-up');
+      }
+    }
+  });
+
+  lastScrollY = currentScrollY;
+}, { threshold: 0.10, rootMargin: '0px 0px -5% 0px' });
+
+revealEls.forEach(el => observer.observe(el));
+
+// Hero always visible on load
+document.querySelectorAll('#hero .reveal').forEach(el => {
+  el.classList.add('visible');
+});
+
+// Nav scroll style
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Portfolio Tracker Gallery
+const trackerSlides = [
+  {
+    label: 'Broad Market Analysis',
+    img: 'https://drive.google.com/thumbnail?id=1HOaE8DXhJPPqidOnG6nzYneFcS1Kxtrp&sz=w2400'
+  }
+  // Additional slides will be added here
+];
+let trackerIndex = 0;
+
+function openTrackerGallery(index) {
+  trackerIndex = index;
+  document.getElementById('tracker-modal').style.display = 'flex';
+  renderTrackerSlide();
+  buildTrackerDots();
+}
+
+function renderTrackerSlide() {
+  const slide = trackerSlides[trackerIndex];
+  document.getElementById('tracker-slide-img').src = slide.img;
+  document.getElementById('tracker-slide-img').alt = slide.label;
+  document.getElementById('tracker-slide-label').textContent = slide.label;
+  document.getElementById('tracker-slide-counter').textContent = (trackerIndex + 1) + ' / ' + trackerSlides.length;
+  document.getElementById('tracker-prev').style.opacity = trackerIndex === 0 ? '0.3' : '1';
+  document.getElementById('tracker-next').style.opacity = trackerIndex === trackerSlides.length - 1 ? '0.3' : '1';
+  // Update dots
+  document.querySelectorAll('.tracker-dot').forEach((d, i) => {
+    d.style.background = i === trackerIndex ? 'var(--gold)' : 'var(--border)';
+  });
+}
+
+function buildTrackerDots() {
+  const container = document.getElementById('tracker-dots');
+  container.innerHTML = '';
+  trackerSlides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'tracker-dot';
+    dot.style.cssText = 'width:6px;height:6px;border-radius:50%;cursor:pointer;transition:background 0.2s;background:' + (i === trackerIndex ? 'var(--gold)' : 'var(--border)');
+    dot.onclick = () => { trackerIndex = i; renderTrackerSlide(); };
+    container.appendChild(dot);
+  });
+}
+
+function trackerNav(dir) {
+  const next = trackerIndex + dir;
+  if (next < 0 || next >= trackerSlides.length) return;
+  trackerIndex = next;
+  renderTrackerSlide();
+}
+
+// Footer clock + auto year
+function updateClock() {
+  const now = new Date();
+  document.getElementById('footer-time').textContent =
+    'UK TIME · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+updateClock();
+setInterval(updateClock, 60000);
+</script>
+</body>
+</html>
