@@ -411,7 +411,7 @@ nav.scrolled { border-bottom-color: var(--border); }
 
 .project-row {
   display: grid;
-  grid-template-columns: 100px 1fr auto;
+  grid-template-columns: 100px 1fr;
   align-items: start;
   gap: 2rem;
   padding: 1.75rem 0;
@@ -421,6 +421,12 @@ nav.scrolled { border-bottom-color: var(--border); }
 .project-row:first-child { border-top: 1px solid var(--border-soft); }
 .project-row:hover .project-name { color: var(--gold); }
 .project-row:hover { background: transparent; }
+
+.project-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
 
 .project-status {
   font-family: var(--mono);
@@ -462,7 +468,9 @@ nav.scrolled { border-bottom-color: var(--border); }
   color: var(--text-tertiary);
   font-size: 18px;
   transition: color 0.2s, transform 0.2s;
-  padding-top: 4px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
 }
 .project-row:hover .project-arrow {
   color: var(--gold);
@@ -578,9 +586,8 @@ footer {
   #hero, .section-wrap, .chess-strip, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
   .about-grid { grid-template-columns: 1fr; gap: 3rem; }
   .domains-grid { grid-template-columns: 1fr; }
-  .project-row { grid-template-columns: 1fr auto; gap: 0.5rem; align-items: center; }
-  .project-arrow { display: flex; opacity: 1; align-self: center; }
-  .project-status { display: none; }
+  .project-row { grid-template-columns: 1fr; gap: 0.5rem; }
+  .project-arrow { opacity: 1; }
   .hero-name { font-size: 2.8rem; }
 }
 
@@ -759,7 +766,10 @@ footer {
     <div class="project-row reveal reveal-delay-1">
       <div><span class="project-status live">live</span></div>
       <div>
-        <div class="project-name">Morning Meditate</div>
+        <div class="project-name-row">
+          <div class="project-name">Morning Meditate</div>
+          <a href="https://www.morningmeditate.app/" target="_blank" rel="noopener" class="project-arrow" title="Visit Morning Meditate"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+        </div>
         <div class="project-desc">
           A free, voice-guided meditation web app — my first ever shipped project, built solo with agentic AI.
           Born from a personal need: dopamine detox, morning reset, and a way to enter focused work-mode.
@@ -768,13 +778,15 @@ footer {
           Because mental health matters.
         </div>
       </div>
-      <a href="https://www.morningmeditate.app/" target="_blank" rel="noopener" class="project-arrow" title="Visit Morning Meditate"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
     </div>
 
     <div class="project-row reveal reveal-delay-2">
       <div><span class="project-status ongoing">ongoing</span></div>
       <div>
-        <div class="project-name">Gold Market Analysis Tool</div>
+        <div class="project-name-row">
+          <div class="project-name">Gold Market Analysis Tool</div>
+          <button onclick="document.getElementById('gold-modal').style.display='flex'" class="project-arrow" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;" title="Watch demo"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button>
+        </div>
         <div class="project-desc">
           Gold market intelligence is fragmented across too many sources. This tool pulls it all together —
           Central Bank purchases, ETF net flows, real yields, DXY, and technical structure — into a single automated dashboard.
@@ -782,7 +794,6 @@ footer {
           Built for personal use to replace an hour of research with a complete fundamental view of the gold market in under a minute.
         </div>
       </div>
-      <button onclick="document.getElementById('gold-modal').style.display='flex'" class="project-arrow" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;" title="Watch demo"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button>
     </div>
 
     <!-- Gold Tool Video Modal -->
@@ -796,7 +807,10 @@ footer {
     <div class="project-row reveal reveal-delay-3">
       <div><span class="project-status ongoing">ongoing</span></div>
       <div>
-        <div class="project-name">Portfolio Tracker</div>
+        <div class="project-name-row">
+          <div class="project-name">Portfolio Tracker</div>
+          <button onclick="openTrackerGallery(0)" class="project-arrow" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;" title="View screenshots"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button>
+        </div>
         <div class="project-desc">
           Three years of iteration — a fully automated portfolio operating system inside Google Sheets.
           One transaction log — everything else is automated. Live positions, P&amp;L, equity curve, profit factor, win rate.
@@ -806,7 +820,6 @@ footer {
           Built with Apps Script and AI — what used to be fragmented across a dozen sources now lands as a complete market picture in under five minutes.
         </div>
       </div>
-      <button onclick="openTrackerGallery(0)" class="project-arrow" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;" title="View screenshots"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></button>
     </div>
 
     <!-- Portfolio Tracker Gallery Modal -->
@@ -840,13 +853,14 @@ footer {
     <div class="project-row reveal reveal-delay-4">
       <div><span class="project-status">building</span></div>
       <div>
-        <div class="project-name">Next: TBD</div>
+        <div class="project-name-row">
+          <div class="project-name">Next: TBD</div>
+        </div>
         <div class="project-desc">
           Something at the intersection of markets, AI, and systematic thinking.
           Always in progress. Check back.
         </div>
       </div>
-      <div></div>
     </div>
 
   </div>
