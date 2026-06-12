@@ -1100,6 +1100,10 @@ function updateClock() {
 document.getElementById('footer-year').textContent = new Date().getFullYear();
 updateClock();
 setInterval(updateClock, 60000);
+
+// Always start at top on load/refresh
+history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
 </script>
 </body>
 </html>
